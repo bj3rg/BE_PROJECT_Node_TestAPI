@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
 exports.signUp = (req, res, next) => {
   const { username, password } = req.body;
   User.findOne({
@@ -36,6 +37,36 @@ exports.signUp = (req, res, next) => {
           message: "User with the same email already exists",
         });
       }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.logIn = (req, res, next) => {
+  const { username, password } = req.body;
+  User.findOne({
+    where: {
+      username: username,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User does not exist" });
+      }
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          return err;
+        }
+        if (result) {
+          return res.status(200).json({
+            message: "Successfully logged in",
+            first_name: user.id,
+          });
+        }
+      });
     })
     .catch((err) => {
       next(err);
