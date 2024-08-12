@@ -12,22 +12,26 @@ const User = connection.define(
     },
     first_name: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     last_name: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     age: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
-    email: {
+    username: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         isEmail: true,
       },
+    },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     user_img: {
       type: Sequelize.STRING,

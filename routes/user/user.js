@@ -3,7 +3,7 @@ const router = express.Router();
 const validation = require("../../middleware/validationMiddleware");
 const { body, param } = require("express-validator");
 
-const { createUser, findUser } = require("../../controllers/user");
+const { createUser, findUser, signUp } = require("../../controllers/user");
 
 router.post(
   "/create",
@@ -16,6 +16,13 @@ router.post(
   ],
   validation,
   createUser
+);
+
+router.post(
+  "/sign-up",
+  [body("username").notEmpty(), body("password").notEmpty()],
+  validation,
+  signUp
 );
 
 router.get("/find/:email", [param("email").notEmpty()], validation, findUser);
