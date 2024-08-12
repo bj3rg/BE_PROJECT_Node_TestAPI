@@ -10,18 +10,18 @@ const {
   logIn,
 } = require("../../controllers/user");
 
-router.post(
-  "/create",
-  [
-    param("email").notEmpty(),
-    body("first_name").notEmpty(),
-    body("last_name").notEmpty(),
-    body("age").notEmpty(),
-    body("email").notEmpty(),
-  ],
-  validation,
-  createUser
-);
+// router.post(
+//   "/create",
+//   [
+//     param("email").notEmpty(),
+//     body("first_name").notEmpty(),
+//     body("last_name").notEmpty(),
+//     body("age").notEmpty(),
+//     body("email").notEmpty(),
+//   ],
+//   validation,
+//   createUser
+// );
 
 router.post(
   "/login",
@@ -37,6 +37,11 @@ router.post(
   signUp
 );
 
-router.get("/find/:email", [param("email").notEmpty()], validation, findUser);
+router.get(
+  "/find/:username",
+  [param("username").notEmpty()],
+  validation,
+  findUser
+);
 
 module.exports = router;
