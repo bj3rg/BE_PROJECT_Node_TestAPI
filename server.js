@@ -6,14 +6,16 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const multerConfig = require("./middleware/multerMiddleware");
+const rateLimit = require("./middleware/rateLimiterMiddleware");
 
 //Middlewares
+
 app.use(multerConfig);
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/assets", express.static("public"));
 app.use(morgan("dev")); // Logs http method on terminal
-app.use("/api/v1", postRoutes);
+app.use("/api/v1", rateLimit, postRoutes);
 
 sequelizeConnect
   .sync({
