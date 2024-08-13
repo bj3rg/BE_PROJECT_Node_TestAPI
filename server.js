@@ -19,7 +19,7 @@ app.use("/api/v1", rateLimit, postRoutes);
 
 sequelizeConnect
   .sync({
-    force: true,
+    // force: true,
   })
   .then(() => {
     app.listen(port, () => {
