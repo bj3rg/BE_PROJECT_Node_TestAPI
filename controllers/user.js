@@ -1,6 +1,8 @@
 const deleteFile = require("../helpers/deleteFile");
+
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+
 const saltRounds = 10;
 
 exports.signUp = (req, res, next) => {
@@ -76,7 +78,7 @@ exports.logIn = (req, res, next) => {
 
 exports.updateUser = (req, res, next) => {
   const { username } = req.params;
-  const { first_name, last_name, age } = req.body;
+  const { first_name, last_name, age, email } = req.body;
 
   if (!req.files.user_img) {
     return res.status(401).json({
@@ -92,18 +94,26 @@ exports.updateUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
+        deleteFile(user_img.filename, "profile-upload");
         return res
           .status(400)
           .json({ success: false, message: "User with the same email exist" });
       }
       const oldUser_img = user.user_img;
+      console.log(oldUser_img);
       if (oldUser_img) {
         deleteFile(oldUser_img, "profile-upload");
       }
-      (user.user_img = user_img),
-        (user.first_name = first_name),
-        (user.last_name = last_name),
-        (user.age = age);
+
+      user.first_name = first_name;
+      user.last_name = last_name;
+      user.age = age;
+      user.email = email;
+      user.user_img = user_img.filename || null;
+      return user.save();
+    })
+    .then(() => {
+      return res.status(200).json({ message: "Succesfully updated" });
     })
     .catch((err) => {
       console.log(err);

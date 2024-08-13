@@ -1,5 +1,10 @@
 const multer = require("multer");
 
+const uploadFolders = {
+  user_img: "public/assets/profile-upload",
+  pet_img: "public/assets/pet-upload",
+};
+
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = uploadFolders[file.fieldname];

@@ -25,6 +25,10 @@ const User = connection.define(
     username: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: true,
       validate: {
         isEmail: true,
       },

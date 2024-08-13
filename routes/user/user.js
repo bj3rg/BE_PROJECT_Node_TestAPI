@@ -4,24 +4,11 @@ const validation = require("../../middleware/validationMiddleware");
 const { body, param } = require("express-validator");
 
 const {
-  createUser,
   findUser,
   signUp,
   logIn,
+  updateUser,
 } = require("../../controllers/user");
-
-// router.post(
-//   "/create",
-//   [
-//     param("email").notEmpty(),
-//     body("first_name").notEmpty(),
-//     body("last_name").notEmpty(),
-//     body("age").notEmpty(),
-//     body("email").notEmpty(),
-//   ],
-//   validation,
-//   createUser
-// );
 
 router.post(
   "/login",
@@ -42,6 +29,20 @@ router.get(
   [param("username").notEmpty()],
   validation,
   findUser
+);
+
+router.put(
+  "/updateUser/:username",
+  [
+    param("username").notEmpty(),
+    body("first_name").notEmpty(),
+    body("last_name").notEmpty(),
+    body("email").notEmpty(),
+    body("age").notEmpty(),
+    body("user_img").notEmpty(),
+  ],
+  // validation,
+  updateUser
 );
 
 module.exports = router;
