@@ -28,6 +28,4 @@ sequelizeConnect
     console.err(err);
   });
 
-// const port = process.env.PORT || 3001;
-// comment
-// comment 2
+const port = process.env.PORT || 3001;
