@@ -35,6 +35,7 @@ const User = connection.define(
     },
     user_img: {
       type: Sequelize.STRING,
+      allowNull: true,
     },
   },
   {

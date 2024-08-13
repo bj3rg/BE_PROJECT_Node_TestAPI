@@ -1,3 +1,4 @@
+const deleteFile = require("../helpers/deleteFile");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -73,30 +74,36 @@ exports.logIn = (req, res, next) => {
     });
 };
 
-exports.createUser = (req, res, next) => {
-  const { first_name, last_name, age, email } = req.body;
+exports.updateUser = (req, res, next) => {
+  const { username } = req.params;
+  const { first_name, last_name, age } = req.body;
+
+  if (!req.files.user_img) {
+    return res.status(401).json({
+      message: "No image is selected",
+    });
+  }
+
+  const user_img = req.files.user_img[0];
   User.findOne({
     where: {
-      email: email,
+      username: username,
     },
   })
     .then((user) => {
       if (!user) {
-        return User.create({
-          first_name: first_name,
-          last_name: last_name,
-          age: age,
-          email: email,
-        }).then((data) => {
-          return res
-            .status(200)
-            .json({ success: true, message: "Successfully created", data });
-        });
-      } else {
         return res
           .status(400)
           .json({ success: false, message: "User with the same email exist" });
       }
+      const oldUser_img = user.user_img;
+      if (oldUser_img) {
+        deleteFile(oldUser_img, "profile-upload");
+      }
+      (user.user_img = user_img),
+        (user.first_name = first_name),
+        (user.last_name = last_name),
+        (user.age = age);
     })
     .catch((err) => {
       console.log(err);
@@ -105,10 +112,10 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.findUser = (req, res, next) => {
-  const { email } = req.params;
+  const { username } = req.params;
   User.findOne({
     where: {
-      email: email,
+      username: username,
     },
   })
     .then((user) => {

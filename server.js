@@ -5,8 +5,10 @@ const sequelizeConnect = require("./database/connection");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const multerConfig = require("./middleware/multer");
 
 //Middlewares
+app.use(multerConfig);
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/assets", express.static("public"));
