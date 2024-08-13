@@ -1,11 +1,12 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
 
+// Schema/Table
 const User = connection.define(
   "User",
   {
     id: {
-      type: Sequelize.UUID,
+      type: Sequelize.UUID, // Sets the ID to UUID
       defaultValue: Sequelize.UUIDV4,
       allowNull: false,
       primaryKey: true,

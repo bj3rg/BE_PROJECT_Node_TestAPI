@@ -2,11 +2,12 @@ const deleteFile = require("../helpers/deleteFile");
 
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-
 const saltRounds = 10;
 
+//Sign Up function
 exports.signUp = (req, res, next) => {
   const { username, password } = req.body;
+  // Find user by username
   User.findOne({
     where: {
       username: username,
@@ -14,14 +15,17 @@ exports.signUp = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
+        // Apply salting on password
         bcrypt.genSalt(saltRounds, (err, salt) => {
           if (err) {
             return err;
           } else {
+            // Apply hashing of salted password
             bcrypt.hash(password, salt, (err, hash) => {
               if (err) {
                 return err;
               }
+              // Create new User
               return User.create({
                 username: username,
                 password: hash,
@@ -46,8 +50,10 @@ exports.signUp = (req, res, next) => {
     });
 };
 
+// Login function
 exports.logIn = (req, res, next) => {
   const { username, password } = req.body;
+  // Find user by username
   User.findOne({
     where: {
       username: username,
@@ -59,6 +65,7 @@ exports.logIn = (req, res, next) => {
           .status(404)
           .json({ success: false, message: "User does not exist" });
       }
+      // Use compare method of bcrypt to check password === existing password
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
           return err;
@@ -76,44 +83,52 @@ exports.logIn = (req, res, next) => {
     });
 };
 
+// Update User
 exports.updateUser = (req, res, next) => {
   const { username } = req.params;
   const { first_name, last_name, age, email } = req.body;
 
+  // If no image uploaded, return error
   if (!req.files.user_img) {
     return res.status(401).json({
       message: "No image is selected",
     });
   }
-
+  // Access or get the first file in the array of items in user_img field
   const user_img = req.files.user_img[0];
+
   User.findOne({
     where: {
       username: username,
     },
   })
     .then((user) => {
+      // If no user found
       if (!user) {
+        // Uploaded image is deleted using deleteFile helpers and return error
         deleteFile(user_img.filename, "profile-upload");
         return res
           .status(400)
           .json({ success: false, message: "User with the same email exist" });
       }
+      // If user exists, get the old image of the user
       const oldUser_img = user.user_img;
-      console.log(oldUser_img);
+      // Delete the old image of the user
       if (oldUser_img) {
         deleteFile(oldUser_img, "profile-upload");
       }
 
+      // Updates the requested fields
       user.first_name = first_name;
       user.last_name = last_name;
       user.age = age;
       user.email = email;
+      // use .filename and || null since it is a file type
       user.user_img = user_img.filename || null;
       return user.save();
     })
     .then(() => {
-      return res.status(200).json({ message: "Succesfully updated" });
+      return res.status(200).json({ message: "Successfully updated" });
     })
     .catch((err) => {
       console.log(err);
@@ -121,19 +136,23 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
+// Find User function
 exports.findUser = (req, res, next) => {
   const { username } = req.params;
+  // Find user by username
   User.findOne({
     where: {
       username: username,
     },
   })
     .then((user) => {
+      // If not found, return error
       if (!user) {
         return res
           .status(404)
           .json({ success: false, message: "User does not exist" });
       } else {
+        // Else if found, return user data
         return res.status(200).json({ user });
       }
     })

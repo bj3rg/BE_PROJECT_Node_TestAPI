@@ -3,12 +3,22 @@ const router = express.Router();
 const validation = require("../../middleware/validationMiddleware");
 const { body, param } = require("express-validator");
 
+// Imports the User Controller
 const {
   findUser,
   signUp,
   logIn,
   updateUser,
 } = require("../../controllers/user");
+
+// List of http request methods
+
+// router.post(                                                   ---> HTTP request type (POST,GET,PUT,PATCH,DELETE)
+//   "/login",                                                    ---> Endpoint
+//   [body("username").notEmpty(), body("password").notEmpty()],  ---> body/params
+//   validation,                                                  ---> Input Validator
+//   logIn                                                        ---> User Controller Function
+// );
 
 router.post(
   "/login",

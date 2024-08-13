@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Route imports
+// Route imports from the folder
 const userRoute = require("./user/user");
 
 // Endpoint route initialization
