@@ -12,7 +12,7 @@ const {
 
 router.post(
   "/create-note",
-  //   [body("title").notEmpty(), body("message").notEmpty()],
+  [body("title").notEmpty(), body("message").notEmpty()],
   createNote
 );
 

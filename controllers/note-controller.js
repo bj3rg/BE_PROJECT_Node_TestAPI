@@ -1,6 +1,39 @@
 const Note = require("../models/note-schema");
-// Login function
-exports.createNote = (req, res, next) => {};
+
+exports.createNote = (req, res, next) => {
+  const { title, message } = req.body;
+  const { id } = req.params;
+  Note.findOne({
+    where: {
+      id: id,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      } else {
+        return Note.create(
+          {
+            title: title,
+            message: message,
+          },
+          {
+            where: {
+              id: id,
+            },
+          }
+        ).then(() => {
+          return res.status(200).json({ message: "Note created successfully" });
+        });
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 
 // Update Note by ID
 exports.updateNote = (req, res, next) => {
