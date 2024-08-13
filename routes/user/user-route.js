@@ -9,7 +9,7 @@ const {
   signUp,
   logIn,
   updateUser,
-} = require("../../controllers/user");
+} = require("../../controllers/user-controller");
 
 // List of http request methods
 

@@ -1,6 +1,6 @@
 const deleteFile = require("../helpers/deleteFile");
 
-const User = require("../models/user");
+const User = require("../models/user-schema");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
