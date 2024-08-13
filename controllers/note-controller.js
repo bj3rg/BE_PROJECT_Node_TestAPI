@@ -16,7 +16,7 @@ exports.createNote = (req, res, next) => {
         });
       } else {
         return Note.create({
-          userid: id,
+          user_id: id,
           title: title,
           message: message,
         }).then(() => {
