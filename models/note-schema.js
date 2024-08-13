@@ -16,7 +16,7 @@ const Note = connection.define(
       type: Sequelize.UUID,
       allowNull: false,
     },
-    text: {
+    title: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -26,7 +26,7 @@ const Note = connection.define(
     },
   },
   {
-    tableName: "User",
+    tableName: "Note",
     timestamps: true,
   }
 );

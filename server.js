@@ -17,7 +17,7 @@ app.use("/api/v1", postRoutes);
 
 sequelizeConnect
   .sync({
-    // force: true,
+    force: true,
   })
   .then(() => {
     app.listen(port, () => {
