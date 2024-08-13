@@ -3,7 +3,7 @@ const Note = require("../models/note-schema");
 exports.createNote = (req, res, next) => {
   const { title, message } = req.body;
   const { id } = req.params;
-  Note.findOne({
+  User.findOne({
     where: {
       id: id,
     },
@@ -15,17 +15,11 @@ exports.createNote = (req, res, next) => {
           message: "User not found",
         });
       } else {
-        return Note.create(
-          {
-            title: title,
-            message: message,
-          },
-          {
-            where: {
-              id: id,
-            },
-          }
-        ).then(() => {
+        return Note.create({
+          userid: id,
+          title: title,
+          message: message,
+        }).then(() => {
           return res.status(200).json({ message: "Note created successfully" });
         });
       }
