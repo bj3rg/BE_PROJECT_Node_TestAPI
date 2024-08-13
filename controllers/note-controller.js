@@ -1,4 +1,5 @@
 const Note = require("../models/note-schema");
+const User = require("../models/user-schema");
 
 exports.createNote = (req, res, next) => {
   const { title, message } = req.body;
@@ -66,6 +67,36 @@ exports.updateNote = (req, res, next) => {
     });
 };
 
+//  Delete Note by ID
+exports.deleteNote = (req, res, next) => {
+  const { id } = req.params;
+  Note.findOne({
+    where: {
+      id: id,
+    },
+  })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).json({
+          message: "Note with the given ID does not exist",
+        });
+      } else {
+        Note.destroy({
+          where: {
+            id: id,
+          },
+        }).then(() => {
+          return res
+            .status(204)
+            .json({ message: "Note successfully deleted " });
+        });
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 // Find Note by ID
 exports.findNoteByID = (req, res, next) => {
   const { id } = req.params;
@@ -87,6 +118,30 @@ exports.findNoteByID = (req, res, next) => {
           message: data.message,
           createdAt: data.createdAt,
         });
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+//  Find All note by user ID
+exports.findAllNoteByUserId = (req, res, next) => {
+  const { user_id } = req.params;
+  Note.findAll({
+    where: {
+      user_id: user_id,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "Note with the given ID does not exist",
+        });
+      } else {
+        // Returns user_id and note-info
+        return res.status(200).json({ user });
       }
     })
     .catch((err) => {

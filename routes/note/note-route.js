@@ -6,13 +6,20 @@ const { body, param } = require("express-validator");
 const {
   createNote,
   updateNote,
+  deleteNote,
   deleteAllNoteByUserId,
   findNoteByID,
+  findAllNoteByUserId,
 } = require("../../controllers/note-controller");
 
 router.post(
-  "/create-note",
-  [body("title").notEmpty(), body("message").notEmpty()],
+  "/create-note/:id",
+  [
+    param("id").notEmpty(),
+    body("title").notEmpty(),
+    body("message").notEmpty(),
+  ],
+  validation,
   createNote
 );
 
@@ -24,6 +31,9 @@ router.put(
   updateNote
 );
 
+//  Delete note by id
+router.delete("/delete/:id", [param("id").notEmpty()], deleteNote);
+
 // Delete all note by user_id
 router.delete(
   "/delete-all/:user_id",
@@ -33,5 +43,11 @@ router.delete(
 
 // Get note by id
 router.get("/:id", [param("id").notEmpty()], validation, findNoteByID);
+
+router.get(
+  "/find-all/:user_id",
+  [param("user_id").notEmpty()],
+  findAllNoteByUserId
+);
 
 module.exports = router;
