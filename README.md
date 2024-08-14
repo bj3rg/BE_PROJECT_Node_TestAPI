@@ -13,7 +13,7 @@ Step 2: Install the node modules
 npm install node
 ```
 Step 3: Create an env file. Paste the placeholder below and complete the data needed.
-To get EMAIL_PASS, go to this link [CREATE_APP_KEY](https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmyaccount.google.com%2Fu%2F8%2Fapppasswords%3Frapt%3DAEjHL4P02W-qY5pYTKBTHyapKWIhy486SS4X1qKqbTAfrDtfTPlIwIb28AeIxbhELnq1W65YF5jJuVPmsX22rvp5NlRzkIgsZZi4tfPIrA_T_1IqZar6BY0&followup=https%3A%2F%2Fmyaccount.google.com%2Fu%2F8%2Fapppasswords%3Frapt%3DAEjHL4P02W-qY5pYTKBTHyapKWIhy486SS4X1qKqbTAfrDtfTPlIwIb28AeIxbhELnq1W65YF5jJuVPmsX22rvp5NlRzkIgsZZi4tfPIrA_T_1IqZar6BY0&ifkv=Ab5oB3r6mcwmXWOZHJnbxEnP5nWqoehvZahMHkijoIFGw0jyreeCoa4wwsqRG_a9zQ0xGdwFuKep&osid=1&passive=1209600&rart=ANgoxcfinlUMDQdNyCGK33QS4YhbWygHuBBFg-_V4eBGWjCmKu5oxr2rhnQB-BRvYYuUD-lTez9KhAmrvJFrwisoSfkitqA1ssDIUG8WMQtgzXrunJ016h4&service=accountsettings&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1929207014%3A1723639800019341&ddm=0) to create an App Key. Paste your email on EMAIL_USER and generated key on EMAIL_PASS. This is used for nodemailer feature. 
+To get EMAIL_PASS, go to this link [CREATE_APP_KEY](https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmyaccount.google.com%2Fu%2F8%2Fapppasswords%3Frapt%3DAEjHL4P02W-qY5pYTKBTHyapKWIhy486SS4X1qKqbTAfrDtfTPlIwIb28AeIxbhELnq1W65YF5jJuVPmsX22rvp5NlRzkIgsZZi4tfPIrA_T_1IqZar6BY0&followup=https%3A%2F%2Fmyaccount.google.com%2Fu%2F8%2Fapppasswords%3Frapt%3DAEjHL4P02W-qY5pYTKBTHyapKWIhy486SS4X1qKqbTAfrDtfTPlIwIb28AeIxbhELnq1W65YF5jJuVPmsX22rvp5NlRzkIgsZZi4tfPIrA_T_1IqZar6BY0&ifkv=Ab5oB3r6mcwmXWOZHJnbxEnP5nWqoehvZahMHkijoIFGw0jyreeCoa4wwsqRG_a9zQ0xGdwFuKep&osid=1&passive=1209600&rart=ANgoxcfinlUMDQdNyCGK33QS4YhbWygHuBBFg-_V4eBGWjCmKu5oxr2rhnQB-BRvYYuUD-lTez9KhAmrvJFrwisoSfkitqA1ssDIUG8WMQtgzXrunJ016h4&service=accountsettings&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1929207014%3A1723639800019341&ddm=0) to create an App Key. Paste your email on EMAIL_USER and generated key on EMAIL_PASS. These are used for nodemailer feature. The secretkey is up to you, you can change the key according to your like.
 ```
 DEVELOPMENT=true
 DB_HOST=
@@ -21,7 +21,7 @@ DB_USER=
 DB_PASS=
 PORT=3001
 DB_DATABASE=
-SECRETKEY=
+SECRETKEY=SecretKey
 EMAIL_USER=
 EMAIL_PASS=
 ```
