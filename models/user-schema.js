@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
+const { type } = require("os");
 
 // Schema/Table
 const User = connection.define(
@@ -45,6 +46,14 @@ const User = connection.define(
     token: {
       type: Sequelize.STRING,
       allowNull: true,
+    },
+    verificationCode: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    isVerified: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
   },
   {

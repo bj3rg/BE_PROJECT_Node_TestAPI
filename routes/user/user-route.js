@@ -9,6 +9,7 @@ const {
   signUp,
   logIn,
   updateUser,
+  verifyUser,
 } = require("../../controllers/user-controller");
 
 // List of http request methods
@@ -25,6 +26,12 @@ router.post(
   [body("username").notEmpty(), body("password").notEmpty()],
   validation,
   logIn
+);
+
+router.post(
+  "/verify-user/:id",
+  [body("code").notEmpty(), param("id").notEmpty()],
+  verifyUser
 );
 
 router.post(

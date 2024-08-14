@@ -35,6 +35,7 @@ exports.signUp = (req, res, next) => {
               User.create({
                 username: username,
                 password: hash,
+                verificationCode: OTP,
               }).then(() => {
                 return res.status(200).json({
                   success: true,
@@ -71,6 +72,11 @@ exports.logIn = (req, res, next) => {
           .status(404)
           .json({ success: false, message: "User does not exist" });
       }
+      if (user.isVerified === false) {
+        return res
+          .status(401)
+          .json({ success: false, message: "User not verified" });
+      }
       // Use compare method of bcrypt to check password === existing password
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
@@ -103,6 +109,37 @@ exports.logIn = (req, res, next) => {
           );
         }
       });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.verifyUser = (req, res, next) => {
+  const { code } = req.body;
+  const { id } = req.params;
+  User.findOne({
+    where: {
+      id: id,
+    },
+  })
+    .then((user) => {
+      console.log("Here");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const userStoredCode = user.verificationCode;
+      if (userStoredCode === code) {
+        user.isVerified = true;
+        user.save();
+        return res.status(200).json({
+          message: "Successfully verified",
+        });
+      } else {
+        return res.status(400).json({
+          message: "Code does not match please try again",
+        });
+      }
     })
     .catch((err) => {
       next(err);
