@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const validation = require("../../middleware/validationMiddleware");
+const authHeader = require("../../middleware/jsonAuthMiddleware");
 const { body, param } = require("express-validator");
 
 const {
@@ -19,6 +20,7 @@ router.post(
     body("title").notEmpty(),
     body("message").notEmpty(),
   ],
+  authHeader, // Adds user authentication
   validation,
   createNote
 );
@@ -27,17 +29,24 @@ router.post(
 router.put(
   "/update/:id",
   [body("title").notEmpty(), body("message").notEmpty()],
+  authHeader, // Adds user authentication
   validation,
   updateNote
 );
 
 //  Delete note by id
-router.delete("/delete/:id", [param("id").notEmpty()], deleteNote);
+router.delete(
+  "/delete/:id",
+  [param("id").notEmpty()],
+  authHeader, // Adds user authentication
+  deleteNote
+);
 
 // Delete all note by user_id
 router.delete(
   "/delete-all/:user_id",
   [param("user_id").notEmpty()],
+  authHeader, // Adds user authentication
   deleteAllNoteByUserId
 );
 
