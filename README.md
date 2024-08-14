@@ -1,6 +1,7 @@
 # Notes API
 
 Notes API is a mini project that allows user to create notes. 
+It has features like OTP generation for Verification sent through email, uploading images, authentication using jsonwebtoken, and limits user request.
 
 ## Installation
 Step 1: Clone the repository from you local machine
@@ -31,21 +32,55 @@ npm run start
 
 ## API Testing
 To test the routes, use Postman or Insomnia for creating http requests.
-```
-<FOR USER>
-POST:   http://localhost:3001/api/v1/user/login
-POST:   http://localhost:3001/api/v1/user/sign-up
-PUT:    http://localhost:3001/api/v1/user/updateUser/:username
-GET:    http://localhost:3001/api/v1/user/find/:username
-POST:   http://localhost:3001/api/v1/user/verify-user/:id
 
-<FOR NOTE>
-POST:   http://localhost:3001/api/v1/note/create-note/:id
-PUT:    http://localhost:3001/api/v1/note/update/:id
-DELETE: http://localhost:3001/api/v1/note/delete-all/:user_id
-DELETE: http://localhost:3001/api/v1/note/delete/:id
-GET:    http://localhost:3001/api/v1/note/:id
-GET:    http://localhost:3001/api/v1/note/find-all/:user_id
+USER ROUTES
+
+Login: POST
+```
+http://localhost:3001/api/v1/user/login
+```
+Sign Up: POST
+```
+http://localhost:3001/api/v1/user/sign-up
+```
+Update User: PUT
+```
+http://localhost:3001/api/v1/user/updateUser/:username
+```
+Find User: GET
+```
+http://localhost:3001/api/v1/user/find/:username
+```
+Verify User: POST
+```
+http://localhost:3001/api/v1/user/verify-user/:id
+```
+
+NOTE ROUTES
+
+Create Note: POST
+```
+http://localhost:3001/api/v1/note/create-note/:id
+```
+Update Note: PUT
+```
+http://localhost:3001/api/v1/note/update/:id
+```
+Delete All Notes: DELETE
+```
+http://localhost:3001/api/v1/note/delete-all/:user_id
+```
+Delete Note: DELETE
+```
+http://localhost:3001/api/v1/note/delete/:id
+```
+Get Note: GET
+```
+http://localhost:3001/api/v1/note/:id
+```
+Find All Notes: GET
+```
+http://localhost:3001/api/v1/note/find-all/:user_id
 ```
 Note: To be able to use all of the Note routes, authorization is needed. Copy the generated token on the Authorization Bearer Token. If you did not, it will return not authorized.
 
