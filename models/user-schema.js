@@ -42,6 +42,10 @@ const User = connection.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
+    token: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   },
   {
     tableName: "User",

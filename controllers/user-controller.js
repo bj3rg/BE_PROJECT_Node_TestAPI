@@ -1,7 +1,11 @@
 const deleteFile = require("../helpers/deleteFile");
-
+const sendOTP = require("../helpers/emailTransporter");
+const randomCode = require("../helpers/OtpGenerator");
 const User = require("../models/user-schema");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 const saltRounds = 10;
 
 //Sign Up function
@@ -25,8 +29,10 @@ exports.signUp = (req, res, next) => {
               if (err) {
                 return err;
               }
+              const OTP = randomCode();
               // Create new User
-              return User.create({
+              sendOTP(username, OTP);
+              User.create({
                 username: username,
                 password: hash,
               }).then(() => {
@@ -71,10 +77,30 @@ exports.logIn = (req, res, next) => {
           return err;
         }
         if (result) {
-          return res.status(200).json({
-            message: "Successfully logged in",
-            first_name: user.id,
-          });
+          // Create new token for user after successful login
+          const token = jwt.sign(
+            { username: username }, //Always enclose it with {} to make it as object
+            process.env.SECRETKEY,
+
+            {
+              expiresIn: "1h", //Expiration of token, can be 1s, 30m, 1h, 1d, and etc
+            }
+          );
+          console.log(token);
+          // Updates the token field in the User's schema
+          user.token = token;
+          user.save();
+          return (
+            res
+              .status(200)
+              // Send token to header as cookie (???)
+              .cookie("token", token, { httpOnly: true })
+              .json({
+                message: "Successfully logged in",
+                first_name: user.id,
+                token: token,
+              })
+          );
         }
       });
     })
