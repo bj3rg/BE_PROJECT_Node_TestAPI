@@ -4,18 +4,19 @@ const postRoutes = require("./routes/main-route");
 const sequelizeConnect = require("./database/connection");
 const bodyParser = require("body-parser");
 const app = express();
-const cors = require("cors");
 const multerConfig = require("./middleware/multerMiddleware");
 const rateLimit = require("./middleware/rateLimiterMiddleware");
+const cors = require("./util/cors");
+// const cors = require("cors");
 
 //Middlewares
 
 app.use(multerConfig);
-app.use(cors());
+
 app.use(bodyParser.json());
 app.use("/assets", express.static("public"));
 app.use(morgan("dev")); // Logs http method on terminal
-app.use("/api/v1", rateLimit, postRoutes);
+app.use("/api/v1", cors, rateLimit, postRoutes);
 
 sequelizeConnect
   .sync({

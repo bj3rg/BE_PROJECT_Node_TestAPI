@@ -79,8 +79,10 @@ exports.logIn = (req, res, next) => {
       }
       // Use compare method of bcrypt to check password === existing password
       bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-          return err;
+        if (!result) {
+          return res.status(404).json({
+            message: "User password does not match",
+          });
         }
         if (result) {
           // Create new token for user after successful login
@@ -100,7 +102,13 @@ exports.logIn = (req, res, next) => {
             res
               .status(200)
               // Send token to header as cookie (???)
-              .cookie("token", token, { httpOnly: true })
+              .cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: -1,
+                path: "/",
+              })
               .json({
                 message: "Successfully logged in",
                 first_name: user.id,
